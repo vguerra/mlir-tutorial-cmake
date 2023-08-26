@@ -15,5 +15,7 @@ cmake -G Ninja .. \
 
 popd
 
+cmake --build ./build --target tutorial-opt
 cmake --build ./build --target check-mlir-tutorial
+
 ln -fs ./build/compile_commands.json

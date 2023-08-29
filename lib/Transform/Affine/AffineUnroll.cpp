@@ -5,21 +5,21 @@
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Support/LogicalResult.h"
 #include "mlir/Transforms/GreedyPatternRewriteDriver.h"
-namespace  mlir {
-namespace  tutorial {
+namespace mlir {
+namespace tutorial {
 
-using  mlir::affine::AffineForOp;
-using  mlir::affine::loopUnrollFull;
+using mlir::affine::AffineForOp;
+using mlir::affine::loopUnrollFull;
 
 // A pass that manually walks the IR
 void AffineFullUnrollPass::runOnOperation() {
-    getOperation().walk([&](AffineForOp op) {
-        if (failed(loopUnrollFull(op))) {
-            op.emitError("unrolling failed");
-            signalPassFailure();
-        }
-    });
-    return;
+  getOperation().walk([&](AffineForOp op) {
+    if (failed(loopUnrollFull(op))) {
+      op.emitError("unrolling failed");
+      signalPassFailure();
+    }
+  });
+  return;
 }
 
 // A pattern that matches on AffineForOp and unrolls it.

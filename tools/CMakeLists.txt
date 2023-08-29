@@ -3,6 +3,7 @@ get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
 set (LIBS
     ${dialect_libs}
     AffineFullUnroll
+    MulToAdd
     MLIROptLib
     MLIRPass
 )

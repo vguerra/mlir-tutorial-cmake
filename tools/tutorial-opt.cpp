@@ -1,4 +1,4 @@
-#include "lib/Transform/Affine/AffineUnroll.h"
+#include "lib/Transform/Affine/AffineFullUnroll.h"
 #include "lib/Transform/Arith/MulToAdd.h"
 #include "mlir/IR/DialectRegistry.h"
 #include "mlir/InitAllDialects.h"

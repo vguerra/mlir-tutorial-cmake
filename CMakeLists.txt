@@ -9,6 +9,10 @@ find_package(MLIR REQUIRED CONFIG)
 message(STATUS "Using MLIRConfig.cmake in: ${MLIR_DIR}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
+# Needed so that docs are generted in the build dir,
+# otherwise there is an attempt to create docs folder in /
+set(MLIR_BINARY_DIR ${CMAKE_BINARY_DIR})
+
 include(AddLLVM)
 include(TableGen)
 

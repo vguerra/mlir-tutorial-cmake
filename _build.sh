@@ -15,6 +15,8 @@ cmake -G Ninja .. \
 
 popd
 
+cmake --build ./build --target MLIRAffineFullUnrollPasses
+cmake --build ./build --target mlir-doc # or AffinePassesDocGen
 cmake --build ./build --target tutorial-opt
 cmake --build ./build --target check-mlir-tutorial
 

@@ -15,7 +15,11 @@ cmake -G Ninja .. \
 
 popd
 
+cmake --build ./build --target MLIRAffineFullUnrollPasses
+cmake --build ./build --target MLIRMulToAddPasses
+cmake --build ./build --target mlir-doc
 cmake --build ./build --target tutorial-opt
 cmake --build ./build --target check-mlir-tutorial
 
 ln -fs ./build/compile_commands.json
+ln -fs ./build/tablegen_compile_commands.yml

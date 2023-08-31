@@ -21,6 +21,7 @@ include(AddMLIR)
 include_directories(${LLVM_INCLUDE_DIRS})
 include_directories(${MLIR_INCLUDE_DIRS})
 include_directories("./")
+include_directories(${PROJECT_BINARY_DIR})
 
 add_subdirectory(tests)
 add_subdirectory(tools)

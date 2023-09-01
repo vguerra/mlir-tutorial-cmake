@@ -17,6 +17,7 @@ popd
 
 cmake --build ./build --target MLIRAffineFullUnrollPasses
 cmake --build ./build --target MLIRMulToAddPasses
+cmake --build ./build --target mlir-headers
 cmake --build ./build --target mlir-doc
 cmake --build ./build --target tutorial-opt
 cmake --build ./build --target check-mlir-tutorial

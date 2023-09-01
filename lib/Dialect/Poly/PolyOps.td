@@ -1,0 +1,6 @@
+#ifndef LIB_DIALECT_POLY_POLYOPS_TD_
+#define LIB_DIALECT_POLY_POLYOPS_TD_
+
+include "PolyDialect.td"
+
+#endif  // LIB_DIALECT_POLY_POLYOPS_TD_

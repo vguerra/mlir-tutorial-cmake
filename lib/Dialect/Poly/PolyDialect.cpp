@@ -1,12 +1,12 @@
-#include "lib/Dialect/Poly/PolyDialect.h"
-
-#include "lib/Dialect/Poly/PolyTypes.h"
+#include "lib/Dialect/Poly/PolyOps.h"
 #include "mlir/IR/Builders.h"
 #include "llvm/ADT/TypeSwitch.h"
 
 #include "lib/Dialect/Poly/PolyOpsDialect.cpp.inc"
 #define GET_TYPEDEF_CLASSES
 #include "lib/Dialect/Poly/PolyOpsTypes.cpp.inc"
+#define  GET_OP_CLASSES
+#include "lib/Dialect/Poly/PolyOps.cpp.inc"
 
 namespace mlir {
 namespace tutorial {
@@ -17,7 +17,10 @@ void PolyDialect::initialize() {
   #define GET_TYPEDEF_LIST
   #include "lib/Dialect/Poly/PolyOpsTypes.cpp.inc"
   >();
-  // This is where we will register types and operations with the dialect
+  addOperations<
+  #define GET_OP_LIST
+  #include "lib/Dialect/Poly/PolyOps.cpp.inc"
+  >();
 }
 
 }  // namespace poly

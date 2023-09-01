@@ -1,3 +1,4 @@
+#include "lib/Dialect/Poly/PolyDialect.h"
 #include "lib/Transform/Affine/Passes.h"
 #include "lib/Transform/Arith/Passes.h"
 #include "mlir/IR/DialectRegistry.h"
@@ -9,6 +10,8 @@
 int main(int argc, char **argv) {
   mlir::DialectRegistry registry;
   mlir::registerAllDialects(registry);
+
+  registry.insert<mlir::tutorial::poly::PolyDialect>();
 
   mlir::tutorial::registerAffinePasses();
   mlir::tutorial::registerArithPasses();

@@ -1,0 +1,57 @@
+name: "Setup build environment"
+description: "Setup the build env. An action so that it can be shared between in-tree/out-of-tree jobs"
+
+inputs:
+  cached-enabled:
+    required: true
+    default: true
+
+  cache-suffix:
+    description: |
+      Additional string that is used to compute the ccache hash.
+      Different jobs running the action need distinct values for this key,
+      but the content is irrelevant.
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+
+steps:
+- name: Install prerequisites (Linux)
+  if: ${{ $runner.os == 'Linux' }}
+  run: sudo apt-get install --yes ccache ninja-build
+  shell: bash
+
+- name: Install prerequisites (maxOS)
+  if: ${{ $runner.os == 'macOS' }}
+  run: brew install ccache ninja
+  shell: bash
+
+- name: Install prerequisites (Windows)
+  if: ${{ $runner.os == 'Windows' }}
+  run: |
+    pip install ninja
+    choco install ccache --yes
+  shell: bash
+
+- name: Configure ccache
+    if: ${{ inputs.cache-enabled == 'true' }}
+    run: |
+      rm -rf ${{ github.workspace }}/.ccache
+      mkdir -p ${{ github.workspace }}/.ccache
+      ccache --set-config "cache_dir=${{ github.workspace }}/.ccache"
+      ccache --set-config "compression=true"
+      ccache --set-config "max_size=300M"
+      ccache --zero-stats
+    shell: bash
+
+  - name: Enable ccache
+    if: ${{ inputs.cache-enabled == 'true' }}
+    uses: actions/cache@v3
+    with:
+      path: ${{ github.workspace }}/.ccache
+      key: ${{ runner.os }}-${{ inputs.cache-suffix }}-${{ github.sha }}
+      restore-keys: |
+        ${{ runner.os }}-${{ inputs.cache-suffix }}-
+        ${{ runner.os }}-

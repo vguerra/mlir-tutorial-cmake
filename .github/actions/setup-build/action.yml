@@ -17,46 +17,46 @@ inputs:
 runs:
   using: "composite"
 
-steps:
-- name: Install prerequisites (Linux)
-  if: ${{ $runner.os == 'Linux' }}
-  run: sudo apt-get install --yes ccache ninja-build
-  shell: bash
-
-- name: Install prerequisites (maxOS)
-  if: ${{ $runner.os == 'macOS' }}
-  run: brew install ccache ninja
-  shell: bash
-
-- name: Install prerequisites (Windows)
-  if: ${{ $runner.os == 'Windows' }}
-  run: |
-    pip install ninja
-    choco install ccache --yes
-  shell: bash
-
-- name: Configure ccache
-    if: ${{ inputs.cache-enabled == 'true' }}
-    run: |
-      rm -rf ${{ github.workspace }}/.ccache
-      mkdir -p ${{ github.workspace }}/.ccache
-      ccache --set-config "cache_dir=${{ github.workspace }}/.ccache"
-      ccache --set-config "compression=true"
-      ccache --set-config "max_size=300M"
-      ccache --zero-stats
+  steps:
+  - name: Install prerequisites (Linux)
+    if: ${{ $runner.os == 'Linux' }}
+    run: sudo apt-get install --yes ccache ninja-build
     shell: bash
 
-  - name: Enable ccache
-    if: ${{ inputs.cache-enabled == 'true' }}
-    uses: actions/cache@v3
-    with:
-      path: ${{ github.workspace }}/.ccache
-      key: ${{ runner.os }}-${{ inputs.cache-suffix }}-${{ github.sha }}
-      restore-keys: |
-        ${{ runner.os }}-${{ inputs.cache-suffix }}-
-        ${{ runner.os }}-
+  - name: Install prerequisites (maxOS)
+    if: ${{ $runner.os == 'macOS' }}
+    run: brew install ccache ninja
+    shell: bash
 
-  - name: Install LLVM & CLANG
-    uses: KyleMayes/install-llvm-action@v1
-    with:
-      version: "16"
+  - name: Install prerequisites (Windows)
+    if: ${{ $runner.os == 'Windows' }}
+    run: |
+      pip install ninja
+      choco install ccache --yes
+    shell: bash
+
+  - name: Configure ccache
+      if: ${{ inputs.cache-enabled == 'true' }}
+      run: |
+        rm -rf ${{ github.workspace }}/.ccache
+        mkdir -p ${{ github.workspace }}/.ccache
+        ccache --set-config "cache_dir=${{ github.workspace }}/.ccache"
+        ccache --set-config "compression=true"
+        ccache --set-config "max_size=300M"
+        ccache --zero-stats
+      shell: bash
+
+    - name: Enable ccache
+      if: ${{ inputs.cache-enabled == 'true' }}
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/.ccache
+        key: ${{ runner.os }}-${{ inputs.cache-suffix }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-${{ inputs.cache-suffix }}-
+          ${{ runner.os }}-
+
+    - name: Install LLVM & CLANG
+      uses: KyleMayes/install-llvm-action@v1
+      with:
+        version: "16"

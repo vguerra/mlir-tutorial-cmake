@@ -1,0 +1,58 @@
+name: Build and Test
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+  concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+  build-test:
+    strategy:
+      fail-fast: true
+      matrix:
+        os-arch: [ubuntu-x86_64, macos-arm64, windows-x86_64]
+        include:
+          - os-arch: ubuntu-x86_64
+            os: a100
+          - os-arch: macos-arm64
+            os: macos-latest
+          - os-arch: windows-x86_64
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+    - name: Prepare workspace
+      if: ${{ matrix.os-arh == 'ubuntu-x86_64' }}
+      run: |
+        # Clear the workspace directory so that we don't run into errors about
+        # existing lock files.
+        sudo rm -rf $GITHUB_WORKSPACE/*
+
+    - name: Checkout mlir tutorial
+      uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+        fetch-depth: 0
+
+    - name: Setup LLVM and ccache
+      uses: ./.github/actions/setup-build
+      with:
+        cache-suffix: 'build-${{ matrix.llvm-build }}-${{ matrix.torch-version }}'
+
+    - name: Set up Visual Studio shell
+      if: ${{ matrix.os-arch == 'windows-x86_64' }}
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Print ccache statistics
+      shell: bash
+      run: ccache --show-stats
+

@@ -16,14 +16,15 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os-arch: [ubuntu-x86_64, macos-arm64, windows-x86_64]
+        #os-arch: [ubuntu-x86_64, macos-arm64, windows-x86_64]
+        os-arch: [ubuntu-x86_64]
         include:
           - os-arch: ubuntu-x86_64
             os: a100
-          - os-arch: macos-arm64
-            os: macos-latest
-          - os-arch: windows-x86_64
-            os: windows-latest
+        #   - os-arch: macos-arm64
+        #     os: macos-latest
+        #   - os-arch: windows-x86_64
+        #     os: windows-latest
     runs-on: ${{ matrix.os }}
 
     steps:

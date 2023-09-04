@@ -55,3 +55,8 @@ steps:
       restore-keys: |
         ${{ runner.os }}-${{ inputs.cache-suffix }}-
         ${{ runner.os }}-
+
+  - name: Install LLVM & CLANG
+    uses: KyleMayes/install-llvm-action@v1
+    with:
+      version: "16"

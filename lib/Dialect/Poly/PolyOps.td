@@ -2,8 +2,9 @@
 #define LIB_DIALECT_POLY_POLYOPS_TD_
 
 include "PolyTypes.td"
+include "mlir/Interfaces/SideEffectInterfaces.td"
 
-class Poly_BinOp<string mnemonic> : Op<Poly_Dialect, mnemonic> {
+class Poly_BinOp<string mnemonic> : Op<Poly_Dialect, mnemonic, [Pure]> {
     let arguments = (ins Polynomial:$lhs, Polynomial:$rhs);
     let results = (outs Polynomial:$output);
     let assemblyFormat = "$lhs `,` $rhs attr-dict `:` `(` type($lhs) `,` type($rhs) `)` `->` type($output)";

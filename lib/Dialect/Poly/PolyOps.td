@@ -44,6 +44,7 @@ def Poly_ConstantOp : Op<Poly_Dialect, "constant", [Pure, ConstantLike]> {
     let arguments = (ins AnyIntElementsAttr:$coefficients);
     let results = (outs Polynomial:$output);
     let assemblyFormat = "$coefficients attr-dict `:` type($output)";
+    let hasFolder = 1;
 }
 
 #endif  // LIB_DIALECT_POLY_POLYOPS_TD_

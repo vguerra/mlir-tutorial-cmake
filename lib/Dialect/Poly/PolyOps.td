@@ -2,15 +2,16 @@
 #define LIB_DIALECT_POLY_POLYOPS_TD_
 
 include "PolyTypes.td"
+include "mlir/Interfaces/InferTypeOpInterface.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
 
 // Type constraint for poly binop arguments: polys, vector or tensor of polys.
 def PolyOrContainer : TypeOrContainer<Polynomial, "poly-or-container">;
 
-class Poly_BinOp<string mnemonic> : Op<Poly_Dialect, mnemonic, [Pure, ElementwiseMappable, SameOperandsAndResultElementType]> {
+class Poly_BinOp<string mnemonic> : Op<Poly_Dialect, mnemonic, [Pure, ElementwiseMappable, SameOperandsAndResultType]> {
     let arguments = (ins PolyOrContainer:$lhs, PolyOrContainer:$rhs);
     let results = (outs PolyOrContainer:$output);
-    let assemblyFormat = "$lhs `,` $rhs attr-dict `:` `(` qualified(type($lhs)) `,` qualified(type($rhs)) `)` `->` qualified(type($output))";
+    let assemblyFormat = "$lhs `,` $rhs attr-dict `:` qualified(type($output))";
     let hasFolder = 1;
 }
 

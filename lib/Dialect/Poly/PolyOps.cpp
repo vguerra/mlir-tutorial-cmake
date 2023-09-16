@@ -1,6 +1,7 @@
 #include "lib/Dialect/Poly/PolyOps.h"
 
 #include "mlir/Dialect/CommonFolders.h"
+#include "mlir/Support/LogicalResult.h"
 
 namespace mlir {
 namespace tutorial {
@@ -61,6 +62,12 @@ OpFoldResult MulOp::fold(MulOp::FoldAdaptor adaptor) {
 OpFoldResult FromTensorOp::fold(FromTensorOp::FoldAdaptor adaptor) {
     // Returns null if the cast failed, which corresponds to a failed fold.
     return dyn_cast<DenseIntElementsAttr>(adaptor.getInput());
+}
+
+LogicalResult EvalOp::verify() {
+  return getPoint().getType().isSignlessInteger(32)
+             ? success()
+             : emitOpError("argument point must be a 32-bit integer");
 }
 
 } // namespace poly

@@ -8,6 +8,11 @@ include "mlir/Interfaces/SideEffectInterfaces.td"
 // Type constraint for poly binop arguments: polys, vector or tensor of polys.
 def PolyOrContainer : TypeOrContainer<Polynomial, "poly-or-container">;
 
+// Inject verification that all integer-like arguments are 32-bits
+def Has32BitArguments : NativeOpTrait<"Has32BitArguments"> {
+    let cppNamespace = "::mlir::tutorial::poly";
+}
+
 class Poly_BinOp<string mnemonic> : Op<Poly_Dialect, mnemonic, [Pure, ElementwiseMappable, SameOperandsAndResultType]> {
     let arguments = (ins PolyOrContainer:$lhs, PolyOrContainer:$rhs);
     let results = (outs PolyOrContainer:$output);
@@ -35,7 +40,7 @@ def Poly_FromTensorOp : Op<Poly_Dialect, "from_tensor", [Pure]> {
     let hasFolder = 1;
 }
 
-def Poly_EvalOp : Op<Poly_Dialect, "eval", [AllTypesMatch<["point", "output"]>]> {
+def Poly_EvalOp : Op<Poly_Dialect, "eval", [AllTypesMatch<["point", "output"]>, Has32BitArguments]> {
     let summary = "Evaluates a Polynomial at a given input value.";
     let arguments = (ins Polynomial:$input, AnyInteger:$point);
     let results = (outs AnyInteger:$output);

@@ -1,6 +1,9 @@
 add_mlir_dialect(PolyOps poly)
 add_mlir_doc(PolyDialect PolyDialect Poly/ -gen-dialect-doc)
 
+set(LLVM_TARGET_DEFINITIONS PolyPatterns.td)
+mlir_tablegen(PolyCanonicalize.cpp.inc -gen-rewriters)
+
 add_mlir_dialect_library(MLIRPoly
     PolyDialect.cpp
     PolyOps.cpp

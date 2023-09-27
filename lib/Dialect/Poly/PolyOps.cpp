@@ -1,8 +1,12 @@
 #include "lib/Dialect/Poly/PolyOps.h"
 
 #include "mlir/Dialect/CommonFolders.h"
+#include "mlir/Dialect/Complex/IR/Complex.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Support/LogicalResult.h"
+
+// Required after PatternMatch.h
+#include "lib/Dialect/Poly/PolyCanonicalize.cpp.inc"
 
 namespace mlir {
 namespace tutorial {
@@ -123,6 +127,11 @@ void SubOp::getCanonicalizationPatterns(RewritePatternSet &results,
 
 void MulOp::getCanonicalizationPatterns(RewritePatternSet &results,
                                         MLIRContext *context) {}
+
+void EvalOp::getCanonicalizationPatterns(RewritePatternSet &results,
+ MLIRContext *context) {
+    populateWithGenerated(results);
+ }
 
 } // namespace poly
 } // namespace tutorial

@@ -14,7 +14,8 @@ def PolyToStandard : Pass<"poly-to-standard"> {
     let dependentDialects = [
         "mlir::arith::ArithDialect",
         "mlir::tutorial::poly::PolyDialect",
-        "mlir::tensor::TensorDialect"
+        "mlir::tensor::TensorDialect",
+        "mlir::scf::SCFDialect",
     ];
 }
 

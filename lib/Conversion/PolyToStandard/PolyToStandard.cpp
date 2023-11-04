@@ -49,7 +49,7 @@ struct ConvertAdd : public OpConversionPattern<AddOp> {
                   ConversionPatternRewriter &rewriter) const override {
     arith::AddIOp addOp = rewriter.create<arith::AddIOp>(
         op->getLoc(), adaptor.getLhs(), adaptor.getRhs());
-    rewriter.replaceOp(op.getOperation(), {addOp});
+    rewriter.replaceOp(op.getOperation(), addOp);
     return success();
   }
 };
@@ -65,7 +65,7 @@ struct ConvertSub : public OpConversionPattern<SubOp> {
                   ConversionPatternRewriter &rewriter) const override {
     arith::SubIOp subOp = rewriter.create<arith::SubIOp>(
         op.getLoc(), adaptor.getLhs(), adaptor.getRhs());
-    rewriter.replaceOp(op.getOperation(), {subOp});
+    rewriter.replaceOp(op.getOperation(), subOp);
     return success();
   }
 };
